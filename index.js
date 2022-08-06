@@ -75,7 +75,7 @@ module.exports = postcss.plugin('postcss-px-to-viewport', function (options) {
           if (!satisfyPropList(decl.prop)) return;
 
           landscapeRule.append(decl.clone({
-            value: decl.value.replace(pxRegex, createPxReplace(opts, opts.landscapeUnit, opts.landscapeWidth))
+            value: decl.value.replace(pxRegex, createPxReplace(opts, opts.landscapeUnit, opts.landscapeWidth, file))
           }));
         });
 
@@ -121,7 +121,7 @@ module.exports = postcss.plugin('postcss-px-to-viewport', function (options) {
           size = opts.viewportWidth;
         }
 
-        var value = decl.value.replace(pxRegex, createPxReplace(opts, unit, size));
+        var value = decl.value.replace(pxRegex, createPxReplace(opts, unit, size, file));
 
         if (declarationExists(decl.parent, decl.prop, value)) return;
 
@@ -148,12 +148,13 @@ function getUnit(prop, opts) {
   return prop.indexOf('font') === -1 ? opts.viewportUnit : opts.fontViewportUnit;
 }
 
-function createPxReplace(opts, viewportUnit, viewportSize) {
+function createPxReplace(opts, viewportUnit, viewportSize, file) {
   return function (m, $1) {
     if (!$1) return m;
     var pixels = parseFloat($1);
     if (pixels <= opts.minPixelValue) return m;
-    var parsedVal = toFixed((pixels / viewportSize * 100), opts.unitPrecision);
+    var size = typeof viewportSize === 'function' ? viewportSize(file) : viewportSize;
+    var parsedVal = toFixed((pixels / size * 100), opts.unitPrecision);
     return parsedVal === 0 ? '0' : parsedVal + viewportUnit;
   };
 }

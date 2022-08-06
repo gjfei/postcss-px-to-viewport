@@ -104,7 +104,7 @@ Default Options:
 }
 ```
 - `unitToConvert` (String) unit to convert, by default, it is px.
-- `viewportWidth` (Number) The width of the viewport.
+- `viewportWidth` (Number | Function) The width of the viewport.
 - `unitPrecision` (Number) The decimal numbers to allow the vw units to grow to.
 - `propList` (Array) The properties that can change from px to vw.
   - Values need to be exact matches.

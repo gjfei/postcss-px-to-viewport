@@ -104,7 +104,7 @@ $ yarn add -D postcss-px-to-viewport
 }
 ```
 - `unitToConvert` (String) 需要转换的单位，默认为"px"
-- `viewportWidth` (Number) 设计稿的视口宽度
+- `viewportWidth` (Number | Function) 设计稿的视口宽度
 - `unitPrecision` (Number) 单位转换后保留的精度
 - `propList` (Array) 能转化为vw的属性列表
   - 传入特定的CSS属性；
